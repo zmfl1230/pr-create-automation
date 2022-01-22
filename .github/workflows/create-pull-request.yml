@@ -13,7 +13,7 @@ jobs:
       - name: Check Commit Tag
         id: check-tag
         run: |
-          if [[ "${{ github.event.head_commit.message }}" =~ ^[a-z]{1,10}-pr:[[:space:]].+ ]]; then
+          if endsWith(github.event.head_commit.message, 'pr'); then
               echo ::set-output name=match::true
           fi
           
