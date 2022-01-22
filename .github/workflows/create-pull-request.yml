@@ -8,17 +8,11 @@ jobs:
     name: Create Action
     runs-on: ubuntu-latest
 
+    if: endsWith(github.event.head_commit.message, 'pr')
     steps:
       - uses: actions/checkout@v2
-      - name: Check Commit Tag
-        id: check-tag
-        run: |
-          if [[ "${{ github.event.head_commit.message }}" =~ ^[a-z]{1,10}-pr:[[:space:]].+ ]]; then
-              echo ::set-output name=match::true
-          fi
-          
+
       - name: Create Hotfix PR Action
-        if: steps.check-tag.outputs.match == 'true'
         uses: vsoch/pull-request-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,7 +21,6 @@ jobs:
           PULL_REQUEST_TITLE: ${{ format('[HOTFIX] {0}', github.ref_name) }}
           
       - name: Create Feature PR Action
-        if: steps.check-tag.outputs.match == 'true'
         uses: vsoch/pull-request-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,7 +30,6 @@ jobs:
           PULL_REQUEST_BODY: "변경 사항을 기록해 주세요👣"
           
       - name: Create Bugfix PR Action
-        if: steps.check-tag.outputs.match == 'true'
         uses: vsoch/pull-request-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -47,7 +39,6 @@ jobs:
           PULL_REQUEST_BODY: "수정 사항을 기록해 주세요😎"
       
       - name: Create Refactor PR Action
-        if: steps.check-tag.outputs.match == 'true'
         uses: vsoch/pull-request-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
