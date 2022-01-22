@@ -8,10 +8,10 @@ jobs:
     name: Create Action
     runs-on: ubuntu-latest
 
+    if: endsWith(github.event.head_commit.message, 'pr')
     steps:
       - uses: actions/checkout@v2
 
-      if: endsWith(github.event.head_commit.message, 'pr')
       - name: Create Hotfix PR Action
         uses: vsoch/pull-request-action@master
         env:
