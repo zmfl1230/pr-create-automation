@@ -27,7 +27,7 @@ jobs:
           PULL_REQUEST_TITLE: ${{ format('[HOTFIX] {0}', github.ref_name) }}
           
       - name: Create Feature PR Action
-        if: steps.check-tag.outputs.match == 'true'
+        if: endsWith(github.event.head_commit.message, 'pr')
         uses: vsoch/pull-request-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
